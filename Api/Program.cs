@@ -1,3 +1,6 @@
+// Workaroud for https://github.com/dotnet/roslyn-analyzers/issues/6141
+#pragma warning disable CA1852
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
