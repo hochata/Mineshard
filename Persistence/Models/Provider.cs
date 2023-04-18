@@ -8,7 +8,7 @@ namespace Mineshard.Persistence.Models
 {
     public class Provider
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         public required string Name { get; set; }
         public required string Url { get; set; }
     }

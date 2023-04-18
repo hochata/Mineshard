@@ -2,7 +2,8 @@ using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
 
-using Mineshard.Api.Models;
+using Mineshard.Api.Models.Reports;
+
 using Mineshard.Persistence.Models;
 using Mineshard.Persistence.Repos;
 
@@ -22,8 +23,13 @@ public class ReportsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll() =>
-        Ok(this.mapper.Map<List<Report>, List<ReportView>>(this.repo.GetAll()));
+    public IActionResult GetAll()
+    {
+        var res = new List<ReportView>();
+        foreach (var r in this.repo.GetAll())
+            res.Add(this.MapReport(r));
+        return Ok(res);
+    }
 
     [HttpGet]
     [Route("{id:Guid}")]
@@ -33,6 +39,11 @@ public class ReportsController : ControllerBase
         if (report == null)
             return NotFound();
         else
-            return Ok(this.mapper.Map<Report, ReportView>(report));
+            return Ok(this.MapReport(report));
     }
+
+    private ReportView MapReport(Report r) =>
+        r.Status == Report.ReportStatus.Ready
+            ? this.mapper.Map<Report, FullReport>(r)
+            : this.mapper.Map<Report, MinimalReport>(r);
 }

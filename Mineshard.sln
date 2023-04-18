@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mineshard.Analyzer", "Analy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mineshard.Persistence", "Persistence\Mineshard.Persistence.csproj", "{A7923B63-99CE-4C38-A356-D9E7472DC6BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mineshard.Api.Test", "Api.Test\Mineshard.Api.Test.csproj", "{7C453093-1DE6-4192-8462-449BEC681414}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{A7923B63-99CE-4C38-A356-D9E7472DC6BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7923B63-99CE-4C38-A356-D9E7472DC6BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7923B63-99CE-4C38-A356-D9E7472DC6BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C453093-1DE6-4192-8462-449BEC681414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C453093-1DE6-4192-8462-449BEC681414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C453093-1DE6-4192-8462-449BEC681414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C453093-1DE6-4192-8462-449BEC681414}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
