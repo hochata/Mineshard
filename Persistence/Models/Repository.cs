@@ -10,7 +10,7 @@ namespace Mineshard.Persistence.Models
 {
     public class Repository
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         public required string Name { get; set; }
         public required string ProviderUsername { get; set; }
 

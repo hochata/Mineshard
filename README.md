@@ -34,3 +34,8 @@ And to run the static analyzers run
 ```sh
 dotnet format --verify-no-changes
 ```
+
+Check code coverage with
+```sh
+dotnet test -p:CollectCoverage=true -p:Threshold=80
+```
