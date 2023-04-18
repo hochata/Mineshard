@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen();
 
 // Inject services
 builder.Services.AddScoped<IReportsRepo, ReportsDbRepo>();
+builder.Services.AddScoped<IUserRepository, SqlUserRepository>();
 
 // Add automapper configuration
 builder.Services.AddAutoMapper(typeof(MapProfiles));

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mineshard.Persistence;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Mineshard.Persistence.Migrations
 {
     [DbContext(typeof(RepoAnalysisContext))]
-    partial class RepoAnalysisContextModelSnapshot : ModelSnapshot
+    [Migration("20230418164713_Update users table")]
+    partial class Updateuserstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,23 +47,7 @@ namespace Mineshard.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a71a55d6-99d7-4123-b4e0-1218ecb90e3e"),
-                            CreatedAt = new DateTime(2023, 4, 18, 16, 55, 39, 613, DateTimeKind.Utc).AddTicks(4894),
-                            Description = "Administrator role",
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("c309fa92-2123-47be-b397-a1c77adb502c"),
-                            CreatedAt = new DateTime(2023, 4, 18, 16, 55, 39, 613, DateTimeKind.Utc).AddTicks(4902),
-                            Description = "Collaborator role",
-                            Name = "Collaborator"
-                        });
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("Mineshard.Persistence.Models.Auth.User", b =>
@@ -164,7 +151,7 @@ namespace Mineshard.Persistence.Migrations
 
             modelBuilder.Entity("Mineshard.Persistence.Models.Provider", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -176,7 +163,7 @@ namespace Mineshard.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Provider");
                 });
@@ -187,7 +174,7 @@ namespace Mineshard.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("NumCommitsOnMain")
+                    b.Property<int>("NumCommitsOnMain")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("RepositoryId")
@@ -205,7 +192,7 @@ namespace Mineshard.Persistence.Migrations
 
             modelBuilder.Entity("Mineshard.Persistence.Models.Repository", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -223,7 +210,7 @@ namespace Mineshard.Persistence.Migrations
                     b.Property<Guid>("RequestorId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("ProviderId");
 
