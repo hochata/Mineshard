@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mineshard.Persistence;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Mineshard.Persistence.Migrations
 {
     [DbContext(typeof(RepoAnalysisContext))]
-    partial class RepoAnalysisContextModelSnapshot : ModelSnapshot
+    [Migration("20230418013918_RemoveRepoStub")]
+    partial class RemoveRepoStub
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,7 +180,7 @@ namespace Mineshard.Persistence.Migrations
                     b.Property<Guid>("RepositoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("status")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -230,7 +233,7 @@ namespace Mineshard.Persistence.Migrations
             modelBuilder.Entity("Mineshard.Persistence.Models.Branch", b =>
                 {
                     b.HasOne("Mineshard.Persistence.Models.Report", "Report")
-                        .WithMany("Branches")
+                        .WithMany()
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -241,7 +244,7 @@ namespace Mineshard.Persistence.Migrations
             modelBuilder.Entity("Mineshard.Persistence.Models.Committer", b =>
                 {
                     b.HasOne("Mineshard.Persistence.Models.Report", "Report")
-                        .WithMany("Commiters")
+                        .WithMany()
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -252,7 +255,7 @@ namespace Mineshard.Persistence.Migrations
             modelBuilder.Entity("Mineshard.Persistence.Models.MonthlyLoad", b =>
                 {
                     b.HasOne("Mineshard.Persistence.Models.Report", "Report")
-                        .WithMany("CommitsPerMonth")
+                        .WithMany()
                         .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -263,7 +266,7 @@ namespace Mineshard.Persistence.Migrations
             modelBuilder.Entity("Mineshard.Persistence.Models.Report", b =>
                 {
                     b.HasOne("Mineshard.Persistence.Models.Repository", "Repository")
-                        .WithMany("Reports")
+                        .WithMany()
                         .HasForeignKey("RepositoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -288,20 +291,6 @@ namespace Mineshard.Persistence.Migrations
                     b.Navigation("Provider");
 
                     b.Navigation("Requestor");
-                });
-
-            modelBuilder.Entity("Mineshard.Persistence.Models.Report", b =>
-                {
-                    b.Navigation("Branches");
-
-                    b.Navigation("Commiters");
-
-                    b.Navigation("CommitsPerMonth");
-                });
-
-            modelBuilder.Entity("Mineshard.Persistence.Models.Repository", b =>
-                {
-                    b.Navigation("Reports");
                 });
 #pragma warning restore 612, 618
         }
