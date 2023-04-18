@@ -1,18 +1,31 @@
 # Mineshard
 
-Build with
-```sh
-dotnet build
-```
-
-## Code quality checks
-
+## Setup
 Install tools with
 ```sh
 dotnet tool restore
 ```
 
-Then, to check if the code is formatted run
+Modify the `appsettings.json` at the root. The field `MineshardDb` should have the correct database connection string. Then to create the database run
+```sh
+cd Persistence
+dotnet ef database update
+cd ..
+```
+
+Check that the project builds with
+```sh
+dotnet build
+```
+
+## Run
+```sh
+dotnet run --project Api/Mineshard.Api.csproj
+```
+
+## Code quality checks
+
+To check if the code is formatted run
 ```sh
 dotnet csharpier --check
 ```

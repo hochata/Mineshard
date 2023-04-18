@@ -21,8 +21,6 @@ builder.Services.AddScoped<IReportsRepo, ReportsDbRepo>();
 // Add automapper configuration
 builder.Services.AddAutoMapper(typeof(MapProfiles));
 
-builder.Services.AddDbContext<RepoAnalysisContext>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
