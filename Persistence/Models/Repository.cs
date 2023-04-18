@@ -15,12 +15,10 @@ namespace Mineshard.Persistence.Models
         public required string ProviderUsername { get; set; }
 
         public Guid ProviderId { get; set; }
-        public Guid? ReportId { get; set; }
         public Guid RequestorId { get; set; }
 
-        public Report? Report { get; set; }
-        public required User requestor { get; set; }
+        public required User Requestor { get; set; }
         public required Provider Provider { get; set; }
-
+        public required ICollection<Report> Reports { get; set; }
     }
 }

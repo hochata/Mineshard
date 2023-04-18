@@ -1,11 +1,5 @@
 namespace Mineshard.Persistence.Models;
 
-// TODO: Remove this stub before merging
-public class Repo
-{
-    public Guid Id { get; set; }
-}
-
 public class Report
 {
     public enum ReportStatus
@@ -16,8 +10,11 @@ public class Report
     }
 
     public Guid Id { get; set; }
-    public Guid RepoId { get; set; }
-    public Repo? Repo { get; set; }
+    public Guid RepositoryId { get; set; }
+    public Repository? Repository { get; set; }
     public int NumCommitsOnMain { get; set; }
-    public ReportStatus status { get; set; }
+    public ReportStatus Status { get; set; }
+    public required IEnumerable<Branch> Branches { get; set; }
+    public required IEnumerable<Committer> Commiters { get; set; }
+    public required IEnumerable<MonthlyLoad> CommitsPerMonth { get; set; }
 }

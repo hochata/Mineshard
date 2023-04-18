@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace Mineshard.Persistence.Models.Auth
 {
     public class Role
