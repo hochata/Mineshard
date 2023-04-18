@@ -2,13 +2,13 @@
 
 namespace Mineshard.Persistence.Repos;
 
-public class ReportsDbRepo : IReportsRepo
+public sealed class ReportsDbRepo : IReportsRepo, IDisposable
 {
     private readonly RepoAnalysisContext context;
 
-    public ReportsDbRepo(RepoAnalysisContext context)
+    public ReportsDbRepo()
     {
-        this.context = context;
+        this.context = new RepoAnalysisContext();
     }
 
     public Report? GetOne(Guid id)
@@ -26,5 +26,10 @@ public class ReportsDbRepo : IReportsRepo
             return new List<Report>();
 
         return this.context.Reports.ToList();
+    }
+
+    public void Dispose()
+    {
+        this.context.Dispose();
     }
 }

@@ -13,18 +13,23 @@ public class RepoAnalysisContext : DbContext
     public DbSet<MonthlyLoad>? MonthlyLoads { get; set; }
 
     private readonly string? connectionString;
-    private readonly IConfiguration? configuration;
 
     public RepoAnalysisContext()
     {
         IConfigurationBuilder builder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
+            .SetBasePath(GetConfigurationPath())
             .AddJsonFile("appsettings.json");
 
-        this.configuration = builder.Build();
-        if (this.configuration == null)
+        var configuration = builder.Build();
+        if (configuration == null)
             throw new InvalidDataException("Couldn't find configuration file");
-        this.connectionString = this.configuration.GetConnectionString("MineshardDb");
+        this.connectionString = configuration.GetConnectionString("MineshardDb");
+    }
+
+    private static string GetConfigurationPath()
+    {
+        var cwd = Directory.GetParent(Directory.GetCurrentDirectory());
+        return cwd == null ? Directory.GetCurrentDirectory() : cwd.FullName;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

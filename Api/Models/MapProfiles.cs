@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
+
 using AutoMapper;
+
 using Mineshard.Persistence.Models;
 
 namespace Mineshard.Api.Models;
