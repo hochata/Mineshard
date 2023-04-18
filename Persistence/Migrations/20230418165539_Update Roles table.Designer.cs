@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mineshard.Persistence;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Mineshard.Persistence.Migrations
 {
     [DbContext(typeof(RepoAnalysisContext))]
-    partial class RepoAnalysisContextModelSnapshot : ModelSnapshot
+    [Migration("20230418165539_Update Roles table")]
+    partial class UpdateRolestable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,7 +167,7 @@ namespace Mineshard.Persistence.Migrations
 
             modelBuilder.Entity("Mineshard.Persistence.Models.Provider", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -176,7 +179,7 @@ namespace Mineshard.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Provider");
                 });
@@ -187,7 +190,7 @@ namespace Mineshard.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("NumCommitsOnMain")
+                    b.Property<int>("NumCommitsOnMain")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("RepositoryId")
@@ -205,7 +208,7 @@ namespace Mineshard.Persistence.Migrations
 
             modelBuilder.Entity("Mineshard.Persistence.Models.Repository", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -223,7 +226,7 @@ namespace Mineshard.Persistence.Migrations
                     b.Property<Guid>("RequestorId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("ProviderId");
 
