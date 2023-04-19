@@ -75,7 +75,7 @@ namespace Mineshard.Api.Controllers
                 return BadRequest();
             }
 
-            if (_userRepository.GetByUsername(userUpdate.Username) is null)
+            if (_userRepository.GetByUsername(userUpdate.Username) != null)
             {
                 ModelState.AddModelError("Username", "Username already exists");
                 return BadRequest(ModelState);
@@ -95,6 +95,20 @@ namespace Mineshard.Api.Controllers
 
             return Ok(_mapper.Map<UserDto>(existingUser));
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult GetById([FromRoute] Guid id)
+        {
+            User? user = _userRepository.GetById(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+            return Ok(_mapper.Map<UserDto>(user));
+        }
+
 
     }
 }

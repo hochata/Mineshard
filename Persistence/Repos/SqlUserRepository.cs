@@ -5,6 +5,8 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.EntityFrameworkCore;
+
 using Mineshard.Persistence.Models.Auth;
 
 namespace Mineshard.Persistence.Repos
@@ -35,12 +37,12 @@ namespace Mineshard.Persistence.Repos
 
         public List<User> GetAll()
         {
-            return _analysisContext.Users.ToList();
+            return _analysisContext.Users.Include("Role").ToList();
         }
 
         public User? GetById(Guid id)
         {
-            return _analysisContext.Users.FirstOrDefault(u => u.Id == id);
+            return _analysisContext.Users.Include("Role").FirstOrDefault(u => u.Id == id);
         }
 
         public User? GetByUsername(string? username)
