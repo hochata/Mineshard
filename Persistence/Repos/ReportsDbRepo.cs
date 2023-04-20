@@ -1,10 +1,24 @@
-﻿using Mineshard.Persistence.Models;
+﻿using Microsoft.EntityFrameworkCore;
+
+using Mineshard.Persistence.Context;
+
+using Mineshard.Persistence.Models;
 
 namespace Mineshard.Persistence.Repos;
 
 public sealed class ReportsDbRepo : IReportsRepo, IDisposable
 {
     private readonly RepoAnalysisContext context;
+
+    public ReportsDbRepo(DbContextOptions<RepoAnalysisContext> opts)
+    {
+        this.context = new RepoAnalysisContext(opts);
+    }
+
+    public ReportsDbRepo(RepoAnalysisContext context)
+    {
+        this.context = context;
+    }
 
     public ReportsDbRepo()
     {

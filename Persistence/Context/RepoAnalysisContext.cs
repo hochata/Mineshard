@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Mineshard.Persistence.Models;
 using Mineshard.Persistence.Models.Auth;
 
-namespace Mineshard.Persistence;
+namespace Mineshard.Persistence.Context;
 
 public class RepoAnalysisContext : DbContext
 {
@@ -16,19 +16,11 @@ public class RepoAnalysisContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
 
-    private readonly string? connectionString;
+    public RepoAnalysisContext(DbContextOptions<RepoAnalysisContext> opts)
+        : base(opts) { }
 
     public RepoAnalysisContext()
-    {
-        IConfigurationBuilder builder = new ConfigurationBuilder()
-            .SetBasePath(GetConfigurationPath())
-            .AddJsonFile("appsettings.json");
-
-        var configuration = builder.Build();
-        if (configuration == null)
-            throw new InvalidDataException("Couldn't find configuration file");
-        this.connectionString = configuration.GetConnectionString("MineshardDb");
-    }
+        : base(DefaultOptions()) { }
 
     private static string GetConfigurationPath()
     {
@@ -36,9 +28,21 @@ public class RepoAnalysisContext : DbContext
         return cwd == null ? Directory.GetCurrentDirectory() : cwd.FullName;
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public static DbContextOptions<RepoAnalysisContext> DefaultOptions()
     {
-        optionsBuilder.UseNpgsql(this.connectionString);
+        IConfigurationBuilder builder = new ConfigurationBuilder()
+            .SetBasePath(RepoAnalysisContext.GetConfigurationPath())
+            .AddJsonFile("appsettings.json");
+
+        var configuration = builder.Build();
+        if (configuration == null)
+            throw new InvalidDataException("Couldn't find configuration file");
+        var connectionString = configuration.GetConnectionString("MineshardDb");
+        var opts = new DbContextOptionsBuilder<RepoAnalysisContext>()
+            .UseNpgsql(connectionString)
+            .Options;
+
+        return opts;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
