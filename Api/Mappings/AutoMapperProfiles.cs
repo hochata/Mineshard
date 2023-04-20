@@ -11,11 +11,8 @@ namespace Mineshard.Api.Mappings
         public AutoMapperProfiles()
         {
             // Users Mappings
-            CreateMap<User, UserDto>().ReverseMap();
-            CreateMap<User, RegisterUserRequest>().ReverseMap();
-
-            // Roles Mappings
-            CreateMap<Role, RoleDto>().ReverseMap();
+            CreateMap<UserDto, User>();
+            CreateMap<User, UserDto>().ForMember(u => u.Role, opt => opt.MapFrom(src => src.Role != null ? src.Role.Name : ""));
         }
     }
 }

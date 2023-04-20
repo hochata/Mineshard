@@ -14,9 +14,10 @@ namespace Mineshard.Api.Models.DTO.User
 
         [Required]
         [MaxLength(60)]
+        [DataType(DataType.EmailAddress)]
         public required string Email { get; set; }
 
         [Required]
-        public Guid RoleId { get; set; }
+        public required string Role { get; set; }
     }
 }

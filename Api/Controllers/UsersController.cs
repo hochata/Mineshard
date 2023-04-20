@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Data;
+
+using AutoMapper;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +16,12 @@ namespace Mineshard.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository userRepository, IMapper mapper)
+        public UsersController(IUserRepository userRepository, IMapper mapper, IRoleRepository roleRepository)
         {
+            _roleRepository = roleRepository;
             _userRepository = userRepository;
             _mapper = mapper;
         }
@@ -38,8 +42,25 @@ namespace Mineshard.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            User user = _userRepository.Create(_mapper.Map<User>(userRequest));
+            Role? role = _roleRepository.GetByName(userRequest.Role);
 
+            if (role is null)
+            {
+                ModelState.AddModelError("Role", "Role does not exist");
+                return BadRequest(ModelState);
+            }
+
+            User user = _userRepository.Create(
+                new User()
+                {
+                    Email = userRequest.Email,
+                    Name = userRequest.Name,
+                    Username = userRequest.Username,
+                    RoleId = role.Id,
+                }
+            );
+
+            user.Role = role;
             return Ok(_mapper.Map<UserDto>(user));
         }
 
@@ -81,6 +102,14 @@ namespace Mineshard.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            Role? role = _roleRepository.GetByName(userUpdate.Role);
+
+            if (role is null)
+            {
+                ModelState.AddModelError("Role", "Role does not exist");
+                return BadRequest(ModelState);
+            }
+
             User? existingUser = _userRepository.GetById(id);
 
             if (existingUser is null)
@@ -89,9 +118,11 @@ namespace Mineshard.Api.Controllers
             existingUser.Username = userUpdate.Username;
             existingUser.Email = userUpdate.Email;
             existingUser.Name = userUpdate.Name;
-            existingUser.RoleId = userUpdate.RoleId;
+            existingUser.RoleId = role.Id;
 
             _userRepository.Update(existingUser);
+
+            existingUser.Role = role;
 
             return Ok(_mapper.Map<UserDto>(existingUser));
         }
