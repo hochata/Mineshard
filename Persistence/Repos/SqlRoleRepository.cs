@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Mineshard.Persistence.Context;
 using Mineshard.Persistence.Models.Auth;
 
 namespace Mineshard.Persistence.Repos

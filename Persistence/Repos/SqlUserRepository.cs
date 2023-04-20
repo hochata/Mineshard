@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.EntityFrameworkCore;
 
+using Mineshard.Persistence.Context;
 using Mineshard.Persistence.Models.Auth;
 
 namespace Mineshard.Persistence.Repos

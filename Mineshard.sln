@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mineshard.Api.Test", "Api.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mineshard.Analyzer.Test", "Analyzer.Test\Mineshard.Analyzer.Test.csproj", "{82044F2E-9EC4-4021-8CFF-98E708E79D45}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mineshard.Persistence.Test", "Persistence.Test\Mineshard.Persistence.Test.csproj", "{40F8B1CA-0B88-41FF-9DB6-D6150FEDBE3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,13 @@ Global
 		{82044F2E-9EC4-4021-8CFF-98E708E79D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82044F2E-9EC4-4021-8CFF-98E708E79D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82044F2E-9EC4-4021-8CFF-98E708E79D45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27DAEB74-0247-41F1-8DC0-26350D3235EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27DAEB74-0247-41F1-8DC0-26350D3235EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27DAEB74-0247-41F1-8DC0-26350D3235EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27DAEB74-0247-41F1-8DC0-26350D3235EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40F8B1CA-0B88-41FF-9DB6-D6150FEDBE3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40F8B1CA-0B88-41FF-9DB6-D6150FEDBE3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40F8B1CA-0B88-41FF-9DB6-D6150FEDBE3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40F8B1CA-0B88-41FF-9DB6-D6150FEDBE3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
