@@ -67,6 +67,7 @@ namespace Mineshard.Persistence.Repos
 
         public void Dispose()
         {
+            _analysisContext.Dispose();
             GC.SuppressFinalize(this);
         }
     }

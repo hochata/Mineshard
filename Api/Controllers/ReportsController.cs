@@ -1,6 +1,7 @@
 using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
+
 using Mineshard.Api.Models.Reports;
 using Mineshard.Persistence.Models;
 using Mineshard.Persistence.Repos;
