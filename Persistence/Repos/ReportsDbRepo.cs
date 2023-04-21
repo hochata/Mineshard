@@ -32,4 +32,14 @@ public sealed class ReportsDbRepo : IReportsRepo, IDisposable
     {
         this.context.Dispose();
     }
+
+    public void Update(Report source, Report dest)
+    {
+        dest.Status = source.Status;
+        dest.Branches = source.Branches;
+        dest.Committers = source.Committers;
+        dest.CommitsPerMonth = source.CommitsPerMonth;
+
+        this.context.SaveChanges();
+    }
 }
