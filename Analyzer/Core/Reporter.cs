@@ -1,35 +1,20 @@
 ﻿using Mineshard.Persistence.Models;
 
-using Mineshard.Persistence.Repos;
-
 namespace Mineshard.Analyzer.Core;
 
 public class Reporter
 {
-    private readonly IReportsRepo repo;
+    public static Task<Report> AnalyzeAsync(Report report) => Task.Run(() => Analyze(report));
 
-    public Reporter(IReportsRepo repo)
+    public static Report Analyze(Report report)
     {
-        this.repo = repo;
-    }
-
-    public void Analyze(Guid reportId, string url)
-    {
-        var report = this.repo.GetOne(reportId);
-        if (report != null)
-        {
-            var analysis = new Analysis(url);
-            var results = CopyMinimal(report);
-            if (analysis.Status == Analysis.RepoStatus.Cloned)
-            {
-                TranscribeAnalysis(results, analysis);
-            }
-            else
-            {
-                results.Status = Report.ReportStatus.Failed;
-            }
-            this.repo.Update(report, results);
-        }
+        var analysis = new Analysis(report.Repository.Provider.Url);
+        var results = CopyMinimal(report);
+        if (analysis.Status == Analysis.RepoStatus.Cloned)
+            TranscribeAnalysis(results, analysis);
+        else
+            results.Status = Report.ReportStatus.Failed;
+        return report;
     }
 
     private static void TranscribeAnalysis(Report results, Analysis analysis)
