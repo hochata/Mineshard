@@ -17,11 +17,14 @@ public class Analysis : IDisposable
     private readonly string localPath;
     private Repository? gitRepo;
     public RepoStatus Status { get; private set; } = RepoStatus.Nop;
+    private readonly string mergeUser;
+    private readonly string mergeEmail;
 
-    public Analysis(string url)
+    public Analysis(string url, string name, string mergeUser, string mergeEmail)
     {
         this.Status = RepoStatus.Cloning;
-        var name = new Uri(url).LocalPath;
+        this.mergeUser = mergeUser;
+        this.mergeEmail = mergeEmail;
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         this.localPath = Path.Join(appData, "Mineshard", "Repos", name);
 
@@ -34,7 +37,9 @@ public class Analysis : IDisposable
             }
             catch (LibGit2SharpException)
             {
-                Directory.Delete(this.localPath);
+                if (Directory.Exists(this.localPath))
+                    Directory.Delete(this.localPath, true);
+
                 this.Clone(url);
             }
         }
@@ -111,8 +116,8 @@ public class Analysis : IDisposable
         var opts = new PullOptions();
         opts.FetchOptions = new FetchOptions();
         var signature = new Signature(
-            "hochata",
-            "hochata@disroot.org",
+            this.mergeUser,
+            this.mergeEmail,
             new DateTimeOffset(DateTime.Now)
         );
 

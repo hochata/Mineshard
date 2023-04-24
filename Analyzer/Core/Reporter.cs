@@ -4,17 +4,41 @@ namespace Mineshard.Analyzer.Core;
 
 public class Reporter
 {
-    public static Task<Report> AnalyzeAsync(Report report) => Task.Run(() => Analyze(report));
+    private readonly string mergeUser;
+    private readonly string mergeEmail;
 
-    public static Report Analyze(Report report)
+    public Reporter(IConfiguration config)
     {
-        var analysis = new Analysis(report.Repository.Provider.Url);
+        this.mergeUser =
+            config.GetValue<string>("GitUser:Name")
+            ?? throw new ArgumentNullException(
+                nameof(config),
+                "Missing ExchangeName configuration"
+            );
+        this.mergeEmail =
+            config.GetValue<string>("GitUser:Email")
+            ?? throw new ArgumentNullException(
+                nameof(config),
+                "Missing ExchangeName configuration"
+            );
+    }
+
+    public Task<Report> AnalyzeAsync(Report report) => Task.Run(() => Analyze(report));
+
+    public Report Analyze(Report report)
+    {
+        var analysis = new Analysis(
+            report.Repository.Provider.Url,
+            report.Repository.Name,
+            this.mergeUser,
+            this.mergeEmail
+        );
         var results = CopyMinimal(report);
         if (analysis.Status == Analysis.RepoStatus.Cloned)
             TranscribeAnalysis(results, analysis);
         else
             results.Status = Report.ReportStatus.Failed;
-        return report;
+        return results;
     }
 
     private static void TranscribeAnalysis(Report results, Analysis analysis)
