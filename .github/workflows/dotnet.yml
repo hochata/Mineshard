@@ -10,8 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,12 +23,38 @@ jobs:
       run: dotnet restore
     - name: Restore Linter
       run: dotnet tool restore
-    - name: Run linter
-      run: dotnet format --verify-no-changes
-    - name: Run Csharpier
+    - name: Run style linter
+      run: dotnet format style --verify-no-changes --no-restore
+    - name: Run analyzers
+      run: dotnet format analyzers --verify-no-changes --no-restore
+    - name: Run formater
       run: dotnet csharpier --check
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+      
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --verbosity normal
       
