@@ -20,7 +20,6 @@ builder.Services.AddScoped<IReportsRepo, ReportsDbRepo>();
 builder.Services.AddScoped<IUserRepository, SqlUserRepository>();
 builder.Services.AddScoped<IRoleRepository, SqlRoleRepository>();
 
-
 // Add automapper configuration
 builder.Services.AddAutoMapper(typeof(MapProfiles));
 

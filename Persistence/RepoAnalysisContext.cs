@@ -16,7 +16,6 @@ public class RepoAnalysisContext : DbContext
     public DbSet<User> Users => Set<User>();
     public DbSet<Role> Roles => Set<Role>();
 
-
     private readonly string? connectionString;
 
     public RepoAnalysisContext()
@@ -50,22 +49,22 @@ public class RepoAnalysisContext : DbContext
         var collaboratorRoleId = new Guid("c309fa92-2123-47be-b397-a1c77adb502c");
 
         var roles = new List<Role>
+        {
+            new Role
             {
-                new Role
-                {
-                    Id = adminRoleId,
-                    Name = "Admin",
-                    Description = "Administrator role",
-                    CreatedAt = DateTime.UtcNow,
-                },
-                new Role
-                {
-                    Id = collaboratorRoleId,
-                    Name = "Collaborator",
-                    Description = "Collaborator role",
-                    CreatedAt = DateTime.UtcNow
-                }
-            };
+                Id = adminRoleId,
+                Name = "Admin",
+                Description = "Administrator role",
+                CreatedAt = DateTime.UtcNow,
+            },
+            new Role
+            {
+                Id = collaboratorRoleId,
+                Name = "Collaborator",
+                Description = "Collaborator role",
+                CreatedAt = DateTime.UtcNow
+            }
+        };
 
         modelBuilder.Entity<Role>().HasData(roles);
     }
