@@ -1,6 +1,8 @@
-﻿using Mineshard.Persistence.Repos;
+﻿using Mineshard.Analyzer.Core;
 
-namespace Mineshard.Analyzer.Core;
+using Mineshard.Persistence.Repos;
+
+namespace Mineshard.Analyzer.Controllers;
 
 public class ReportsController
 {
@@ -18,7 +20,7 @@ public class ReportsController
         var report = this.repo.GetOne(id);
         if (report != null)
         {
-            var analysis = await Reporter.AnalyzeAsync(report);
+            var analysis = await this.reporter.AnalyzeAsync(report);
             this.repo.Update(analysis, report);
         }
     }
