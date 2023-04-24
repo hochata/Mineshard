@@ -19,7 +19,11 @@ namespace Mineshard.Api.Controllers
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository userRepository, IMapper mapper, IRoleRepository roleRepository)
+        public UsersController(
+            IUserRepository userRepository,
+            IMapper mapper,
+            IRoleRepository roleRepository
+        )
         {
             _roleRepository = roleRepository;
             _userRepository = userRepository;
@@ -139,7 +143,5 @@ namespace Mineshard.Api.Controllers
             }
             return Ok(_mapper.Map<UserDto>(user));
         }
-
-
     }
 }

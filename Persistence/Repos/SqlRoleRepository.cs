@@ -16,6 +16,7 @@ namespace Mineshard.Persistence.Repos
         {
             _analysisContext = new RepoAnalysisContext();
         }
+
         public Role? GetByName(string roleName)
         {
             return _analysisContext.Roles.FirstOrDefault(r => r.Name == roleName);

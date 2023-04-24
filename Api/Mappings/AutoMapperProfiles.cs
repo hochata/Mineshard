@@ -12,7 +12,11 @@ namespace Mineshard.Api.Mappings
         {
             // Users Mappings
             CreateMap<UserDto, User>();
-            CreateMap<User, UserDto>().ForMember(u => u.Role, opt => opt.MapFrom(src => src.Role != null ? src.Role.Name : ""));
+            CreateMap<User, UserDto>()
+                .ForMember(
+                    u => u.Role,
+                    opt => opt.MapFrom(src => src.Role != null ? src.Role.Name : "")
+                );
         }
     }
 }

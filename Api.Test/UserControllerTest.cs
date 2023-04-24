@@ -28,22 +28,22 @@ namespace Mineshard.Api.Test
         private readonly UsersController controller;
 
         private readonly List<Role> roles = new List<Role>
+        {
+            new Role
             {
-                new Role
-                {
-                    Id = new Guid("a71a55d6-99d7-4123-b4e0-1218ecb90e3e"),
-                    Name = "Admin",
-                    Description = "Administrator role",
-                    CreatedAt = DateTime.UtcNow,
-                },
-                new Role
-                {
-                    Id = new Guid("c309fa92-2123-47be-b397-a1c77adb502c"),
-                    Name = "Collaborator",
-                    Description = "Collaborator role",
-                    CreatedAt = DateTime.UtcNow
-                }
-            };
+                Id = new Guid("a71a55d6-99d7-4123-b4e0-1218ecb90e3e"),
+                Name = "Admin",
+                Description = "Administrator role",
+                CreatedAt = DateTime.UtcNow,
+            },
+            new Role
+            {
+                Id = new Guid("c309fa92-2123-47be-b397-a1c77adb502c"),
+                Name = "Collaborator",
+                Description = "Collaborator role",
+                CreatedAt = DateTime.UtcNow
+            }
+        };
 
         public UserControllerTest()
         {
@@ -56,7 +56,11 @@ namespace Mineshard.Api.Test
             var mapConf = new MapperConfiguration(c => c.AddProfile(new AutoMapperProfiles()));
 
             this.mapper = new Mapper(mapConf);
-            this.controller = new UsersController(this.mockUsers.Object, this.mapper, this.mockRoles.Object);
+            this.controller = new UsersController(
+                this.mockUsers.Object,
+                this.mapper,
+                this.mockRoles.Object
+            );
         }
 
         [Fact]
@@ -72,9 +76,7 @@ namespace Mineshard.Api.Test
         [Fact]
         public void TestGetAll()
         {
-            this.mockUsers
-                .Setup(r => r.GetAll())
-                .Returns(new List<User>() { UserFixtures.User });
+            this.mockUsers.Setup(r => r.GetAll()).Returns(new List<User>() { UserFixtures.User });
             var result = Assert.IsType<OkObjectResult>(this.controller.GetAll());
             var users = Assert.IsType<List<UserDto>>(result.Value);
             foreach (var u in users)
@@ -95,10 +97,10 @@ namespace Mineshard.Api.Test
                     Name = "New User",
                     Username = "NewUsername",
                     Role = "Admin"
-                });
+                }
+            );
 
             Assert.IsType<OkObjectResult>(result);
-
         }
 
         [Fact]
@@ -116,21 +118,35 @@ namespace Mineshard.Api.Test
             var id = new Guid("73bc25af-20b1-49bb-ad54-b775b9ec1ae2");
             User user = UserFixtures.User;
             this.mockUsers.Setup(u => u.GetById(id)).Returns(user);
-            this.mockUsers.Setup(u => u.Update(user)).Callback(() => user.Role = new Role() { Name = "Writer", Description = "Writer", Id = user.RoleId });
+            this.mockUsers
+                .Setup(u => u.Update(user))
+                .Callback(
+                    () =>
+                        user.Role = new Role()
+                        {
+                            Name = "Writer",
+                            Description = "Writer",
+                            Id = user.RoleId
+                        }
+                );
 
             string name = "updated name";
             string email = "new@mail.com";
             string username = "updatedUsername";
             string role = "Collaborator";
 
-            var result = Assert.IsType<OkObjectResult>(controller.Update(id, new UpdateUserRequest()
-            {
-                Email = email,
-                Name = name,
-                Username = username,
-                Role = role
-            }
-            ));
+            var result = Assert.IsType<OkObjectResult>(
+                controller.Update(
+                    id,
+                    new UpdateUserRequest()
+                    {
+                        Email = email,
+                        Name = name,
+                        Username = username,
+                        Role = role
+                    }
+                )
+            );
 
             var resultUser = Assert.IsType<UserDto>(result.Value);
 

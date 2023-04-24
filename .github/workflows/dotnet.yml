@@ -28,7 +28,7 @@ jobs:
     - name: Run analyzers
       run: dotnet format analyzers --verify-no-changes --no-restore
     - name: Run formater
-      run: dotnet csharpier --check
+      run: dotnet csharpier . --check
 
   build:
     runs-on: ubuntu-latest

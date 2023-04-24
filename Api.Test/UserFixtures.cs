@@ -12,14 +12,15 @@ namespace Mineshard.Api.Test
     {
         public static User User
         {
-            get => new User()
-            {
-                Id = new Guid("73bc25af-20b1-49bb-ad54-b775b9ec1ae2"),
-                Name = "UserFixture",
-                Email = "user@mail.com",
-                Username = "UsernameFixture",
-                Role = new Role { Description = "Can read", Name = "Reader" }
-            };
+            get =>
+                new User()
+                {
+                    Id = new Guid("73bc25af-20b1-49bb-ad54-b775b9ec1ae2"),
+                    Name = "UserFixture",
+                    Email = "user@mail.com",
+                    Username = "UsernameFixture",
+                    Role = new Role { Description = "Can read", Name = "Reader" }
+                };
         }
     }
 }
