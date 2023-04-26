@@ -55,7 +55,7 @@ public class ReportFixtures
 
     public static Provider GithubProvider
     {
-        get => new Provider { Name = "hochata", Url = "https://github.com/hochata/Mineshard" };
+        get => new Provider { Name = "Github", Url = "https://github.com" };
     }
 
     public static Repository GithubRepo
@@ -66,14 +66,9 @@ public class ReportFixtures
                 Name = "Mineshard",
                 Reports = new List<Report>(),
                 Provider = GithubProvider,
-                ProviderUsername = GithubProvider.Name,
+                ProviderUsername = "hochata",
                 Requestor = Requestor
             };
-    }
-
-    public static Provider NonExistantGithubProvider
-    {
-        get => new Provider { Name = "hochata", Url = "https://github.com/hochata/Mine" };
     }
 
     public static Repository NonExistantGithubRepo
@@ -83,8 +78,8 @@ public class ReportFixtures
             {
                 Name = "Mine",
                 Reports = new List<Report>(),
-                Provider = NonExistantGithubProvider,
-                ProviderUsername = NonExistantGithubProvider.Name,
+                Provider = GithubProvider,
+                ProviderUsername = "bunsancio",
                 Requestor = Requestor
             };
     }

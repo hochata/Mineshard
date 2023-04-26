@@ -55,7 +55,7 @@ public class ReportFixtures
 
     public static Provider GithubProvider
     {
-        get => new Provider { Name = "bunsancio", Url = "github.com/bunsancio/providence" };
+        get => new Provider { Name = "Github", Url = "https://github.com" };
     }
 
     public static Repository GithubRepo
@@ -63,10 +63,10 @@ public class ReportFixtures
         get =>
             new Repository
             {
-                Name = "providence",
+                Name = "Mineshard",
                 Reports = new List<Report>(),
                 Provider = GithubProvider,
-                ProviderUsername = GithubProvider.Name,
+                ProviderUsername = "hochata",
                 Requestor = Requestor
             };
     }
