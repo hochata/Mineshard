@@ -3,7 +3,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 using Mineshard.Api.Controllers;
-using Mineshard.Api.Models;
+using Mineshard.Api.Mappings;
+
 using Mineshard.Api.Models.Reports;
 
 using Mineshard.Persistence.Models;
@@ -23,7 +24,7 @@ public class ReportsControllerTest
     public ReportsControllerTest()
     {
         this.mockRepo = new Mock<IReportsRepo>();
-        var mapConf = new MapperConfiguration(c => c.AddProfile(new MapProfiles()));
+        var mapConf = new MapperConfiguration(c => c.AddProfile(new AutoMapperProfiles()));
 
         this.mapper = new Mapper(mapConf);
         this.controller = new ReportsController(this.mockRepo.Object, this.mapper);

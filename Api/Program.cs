@@ -1,8 +1,7 @@
 // Workaroud for https://github.com/dotnet/roslyn-analyzers/issues/6141
 #pragma warning disable CA1852
 
-using Mineshard.Api.Models;
-using Mineshard.Persistence;
+using Mineshard.Api.Mappings;
 using Mineshard.Persistence.Repos;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +20,7 @@ builder.Services.AddScoped<IUserRepository, SqlUserRepository>();
 builder.Services.AddScoped<IRoleRepository, SqlRoleRepository>();
 
 // Add automapper configuration
-builder.Services.AddAutoMapper(typeof(MapProfiles));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 var app = builder.Build();
 
