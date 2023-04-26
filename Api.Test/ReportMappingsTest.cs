@@ -2,7 +2,7 @@ using System.Globalization;
 
 using AutoMapper;
 
-using Mineshard.Api.Models;
+using Mineshard.Api.Mappings;
 using Mineshard.Api.Models.Reports;
 
 using Mineshard.Persistence.Models;
@@ -15,7 +15,7 @@ public class ReportMappingsTest
 
     public ReportMappingsTest()
     {
-        var mapConf = new MapperConfiguration(c => c.AddProfile(new MapProfiles()));
+        var mapConf = new MapperConfiguration(c => c.AddProfile(new AutoMapperProfiles()));
 
         this.mapper = new Mapper(mapConf);
     }
