@@ -14,8 +14,21 @@ public class MapProfiles : Profile
         CreateMap<Branch, string>().ConvertUsing(branch => branch.Name);
         CreateMap<Report.ReportStatus, string>().ConvertUsing(status => status.ToString());
         CreateMap<Report, MinimalReport>()
-            .ForMember(r => r.Url, opts => opts.MapFrom((r, _) => r.Repository.Provider.Url))
-            .ForMember(r => r.UserName, opts => opts.MapFrom((r, _) => r.Repository.Provider.Name));
+            .ForMember(
+                r => r.Url,
+                opts =>
+                    opts.MapFrom(
+                        (r, _) =>
+                            r.Repository.Provider.BuildUrl(
+                                r.Repository.ProviderUsername,
+                                r.Repository.Name
+                            )
+                    )
+            )
+            .ForMember(
+                r => r.UserName,
+                opts => opts.MapFrom((r, _) => r.Repository.ProviderUsername)
+            );
 
         CreateMap<Report, FullReport>()
             .ForMember(view => view.Committers, opts => opts.MapFrom(GetCommitters))
@@ -24,10 +37,20 @@ public class MapProfiles : Profile
                 view => view.RepositoryName,
                 opts => opts.MapFrom((r, _) => r.Repository.Name)
             )
-            .ForMember(view => view.Url, opts => opts.MapFrom((r, _) => r.Repository.Provider.Url))
+            .ForMember(
+                view => view.Url,
+                opts =>
+                    opts.MapFrom(
+                        (r, _) =>
+                            r.Repository.Provider.BuildUrl(
+                                r.Repository.ProviderUsername,
+                                r.Repository.Name
+                            )
+                    )
+            )
             .ForMember(
                 view => view.UserName,
-                opts => opts.MapFrom((r, _) => r.Repository.Provider.Name)
+                opts => opts.MapFrom((r, _) => r.Repository.ProviderUsername)
             );
     }
 

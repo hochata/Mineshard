@@ -30,9 +30,9 @@ public class ReportMappingsTest
         {
             Id = report.Id,
             Status = "Pending",
-            RepositoryName = "providence",
-            UserName = "bunsancio",
-            Url = "github.com/bunsancio/providence"
+            RepositoryName = "Mineshard",
+            UserName = "hochata",
+            Url = "https://github.com/hochata/Mineshard"
         };
 
         Assert.Equal(expected.Id, reportView.Id);
@@ -67,10 +67,10 @@ public class ReportMappingsTest
                 { ToMonth(12), 5 }
             },
             Status = "Ready",
-            RepositoryName = "providence",
+            RepositoryName = "Mineshard",
             NumCommitsOnMain = 60,
-            UserName = "bunsancio",
-            Url = "github.com/bunsancio/providence",
+            UserName = "hochata",
+            Url = "https://github.com/hochata/Mineshard",
             Committers = new Dictionary<string, int> { { "bob", 30 }, { "alice", 30 } }
         };
         Assert.Equal(expected.Id, reportView.Id);
