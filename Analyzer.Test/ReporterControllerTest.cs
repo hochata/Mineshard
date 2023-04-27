@@ -36,7 +36,7 @@ public class ReportsControllerTest
     public async Task TestRunAsyncAnalyzer()
     {
         var sample = ReportFixtures.SampleReport;
-        this.mockRepo.Setup(r => r.GetOne(sample.Id)).Returns(sample);
+        this.mockRepo.Setup(r => r.GetById(sample.Id)).Returns(sample);
 
         await this.controller.RunAnalysisAync(sample.Id);
         this.mockRepo.Verify(r => r.Update(It.IsAny<Report>(), It.IsAny<Report>()), Times.Once);

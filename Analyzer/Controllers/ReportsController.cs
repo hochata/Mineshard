@@ -19,7 +19,7 @@ public class ReportsController
 
     public void RunAnalysis(Guid id)
     {
-        var report = this.repo.GetOne(id);
+        var report = this.repo.GetById(id);
         if (report != null)
         {
             var analysis = this.reporter.Analyze(report);

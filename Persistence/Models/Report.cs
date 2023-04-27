@@ -9,8 +9,8 @@ public class Report
         Ready
     }
 
-    public required Guid Id { get; set; }
-    public required Guid RepositoryId { get; set; }
+    public Guid Id { get; set; }
+    public Guid RepositoryId { get; set; }
     public required Repository Repository { get; set; }
     public required ReportStatus Status { get; set; }
     public int? NumCommitsOnMain { get; set; }

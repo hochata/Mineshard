@@ -9,6 +9,8 @@ namespace Mineshard.Persistence.Context;
 public class RepoAnalysisContext : DbContext
 {
     public DbSet<Report>? Reports { get; set; }
+    public DbSet<Provider>? Providers { get; set; }
+    public DbSet<Repository>? Repositories { get; set; }
     public DbSet<Branch>? Branches { get; set; }
     public DbSet<Committer>? Commiters { get; set; }
     public DbSet<MonthlyLoad>? MonthlyLoads { get; set; }
@@ -70,6 +72,17 @@ public class RepoAnalysisContext : DbContext
             }
         };
 
+        var providers = new List<Provider>
+        {
+            new Provider
+            {
+                Id = Guid.Parse("240095d2-8c4b-48f9-a5e1-276c07bd7678"),
+                Name = "Github",
+                Url = "https://github.com"
+            }
+        };
+
         modelBuilder.Entity<Role>().HasData(roles);
+        modelBuilder.Entity<Provider>().HasData(providers);
     }
 }

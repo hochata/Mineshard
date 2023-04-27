@@ -6,6 +6,12 @@ using Mineshard.Persistence.Repos;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add config
+var parentDir = Directory.GetParent(Directory.GetCurrentDirectory());
+builder.Configuration
+    .SetBasePath(parentDir == null ? Directory.GetCurrentDirectory() : parentDir.FullName)
+    .AddJsonFile("appsettings.json", optional: false);
+
 // Add services to the container.
 
 builder.Services.AddControllers();
