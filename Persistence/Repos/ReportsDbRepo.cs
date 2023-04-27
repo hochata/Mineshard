@@ -25,21 +25,23 @@ public sealed class ReportsDbRepo : IReportsRepo, IDisposable
         this.context = new RepoAnalysisContext();
     }
 
-    public Report? GetOne(Guid id)
-    {
-        if (this.context.Reports == null)
-            return null;
-        var report = this.context.Reports.FirstOrDefault(x => x.Id == id);
-
-        return report;
-    }
+    public Report? GetById(Guid id) =>
+        this.context.Reports == null
+            ? null
+            : this.context.Reports
+                .Include(r => r.Repository)
+                .Include(r => r.Repository.Provider)
+                .FirstOrDefault(x => x.Id == id);
 
     public List<Report> GetAll()
     {
         if (this.context.Reports == null)
             return new List<Report>();
 
-        return this.context.Reports.ToList();
+        return this.context.Reports
+            .Include(r => r.Repository)
+            .Include(r => r.Repository.Provider)
+            .ToList();
     }
 
     public void Dispose()
@@ -55,5 +57,51 @@ public sealed class ReportsDbRepo : IReportsRepo, IDisposable
         dest.CommitsPerMonth = source.CommitsPerMonth;
 
         this.context.SaveChanges();
+    }
+
+    public Provider? GetProviderByName(string name) =>
+        this.context.Providers == null
+            ? null
+            : this.context.Providers.FirstOrDefault(x => x.Name == name);
+
+    public Repository? GetRepositoryById(Guid id) =>
+        this.context.Repositories == null
+            ? null
+            : this.context.Repositories.FirstOrDefault(x => x.Id == id);
+
+    public Repository? GetRepositoryByName(string provider, string user, string name)
+    {
+        if (this.context.Repositories == null)
+            return null;
+
+        return this.context.Repositories.FirstOrDefault(
+            r =>
+                r.Name == name
+                && r.ProviderUsername == user
+                && r.Provider != null
+                && r.Provider.Name == provider
+        );
+    }
+
+    public bool Add(Report source)
+    {
+        if (context.Reports == null)
+            return false;
+
+        this.context.Reports.Add(source);
+        this.context.SaveChanges();
+
+        return true;
+    }
+
+    public bool AddRepository(Repository repo)
+    {
+        if (context.Repositories == null)
+            return false;
+
+        this.context.Repositories.Add(repo);
+        this.context.SaveChanges();
+
+        return true;
     }
 }

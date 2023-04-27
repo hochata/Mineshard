@@ -35,8 +35,9 @@ public class Analysis : IDisposable
                 this.Pull();
                 this.Status = RepoStatus.Cloned;
             }
-            catch (LibGit2SharpException)
+            catch (LibGit2SharpException e)
             {
+                Console.WriteLine(e);
                 if (Directory.Exists(this.localPath))
                     Directory.Delete(this.localPath, true);
 
@@ -132,8 +133,9 @@ public class Analysis : IDisposable
             this.gitRepo = new Repository(path);
             this.Status = RepoStatus.Cloned;
         }
-        catch (LibGit2SharpException)
+        catch (LibGit2SharpException e)
         {
+            Console.WriteLine(e);
             this.Status = RepoStatus.Failed;
         }
     }

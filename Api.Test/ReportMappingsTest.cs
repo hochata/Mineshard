@@ -24,9 +24,9 @@ public class ReportMappingsTest
     public void TestMinimalReportMapping()
     {
         var report = ReportFixtures.SamplePendindReport;
-        var reportView = this.mapper.Map<Report, MinimalReport>(report);
+        var reportView = this.mapper.Map<Report, BaseReport>(report);
 
-        var expected = new MinimalReport
+        var expected = new BaseReport
         {
             Id = report.Id,
             Status = "Pending",

@@ -29,7 +29,7 @@ public class Reporter
     {
         var repo = report.Repository;
         var analysis = new Analysis(
-            repo.Provider.BuildUrl(repo.ProviderUsername, repo.Name),
+            repo.BuildUrl(repo.ProviderUsername, repo.Name),
             repo.Name,
             this.mergeUser,
             this.mergeEmail

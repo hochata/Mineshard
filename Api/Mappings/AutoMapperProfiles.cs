@@ -25,16 +25,18 @@ public class AutoMapperProfiles : Profile
 
         CreateMap<Branch, string>().ConvertUsing(branch => branch.Name);
         CreateMap<Report.ReportStatus, string>().ConvertUsing(status => status.ToString());
-        CreateMap<Report, MinimalReport>()
+        CreateMap<Report, BaseReport>()
             .ForMember(
                 r => r.Url,
                 opts =>
                     opts.MapFrom(
                         (r, _) =>
-                            r.Repository.Provider.BuildUrl(
-                                r.Repository.ProviderUsername,
-                                r.Repository.Name
-                            )
+                            r.Repository.Provider == null
+                                ? ""
+                                : r.Repository.Provider.BuildUrl(
+                                    r.Repository.ProviderUsername,
+                                    r.Repository.Name
+                                )
                     )
             )
             .ForMember(
@@ -54,10 +56,12 @@ public class AutoMapperProfiles : Profile
                 opts =>
                     opts.MapFrom(
                         (r, _) =>
-                            r.Repository.Provider.BuildUrl(
-                                r.Repository.ProviderUsername,
-                                r.Repository.Name
-                            )
+                            r.Repository.Provider == null
+                                ? ""
+                                : r.Repository.Provider.BuildUrl(
+                                    r.Repository.ProviderUsername,
+                                    r.Repository.Name
+                                )
                     )
             )
             .ForMember(

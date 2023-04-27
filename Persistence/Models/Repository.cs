@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Mineshard.Persistence.Models.Auth;
 
-using Mineshard.Persistence.Models.Auth;
+namespace Mineshard.Persistence.Models;
 
-namespace Mineshard.Persistence.Models
+public class Repository
 {
-    public class Repository
-    {
-        public Guid Id { get; set; }
-        public required string Name { get; set; }
-        public required string ProviderUsername { get; set; }
+    public Guid Id { get; set; }
+    public required string Name { get; set; }
+    public required string ProviderUsername { get; set; }
 
-        public Guid ProviderId { get; set; }
-        public Guid RequestorId { get; set; }
+    public Guid ProviderId { get; set; }
+    public Guid RequestorId { get; set; }
 
-        public required User Requestor { get; set; }
-        public required Provider Provider { get; set; }
-        public required ICollection<Report> Reports { get; set; }
-    }
+    public User? Requestor { get; set; }
+    public Provider? Provider { get; set; }
+    public ICollection<Report>? Reports { get; set; }
+
+    public string BuildUrl(string user, string repo) =>
+        this.Provider == null ? "" : this.Provider.BuildUrl(user, repo);
 }

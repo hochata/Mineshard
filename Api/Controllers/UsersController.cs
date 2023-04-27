@@ -1,8 +1,5 @@
-﻿using System.Data;
+﻿using AutoMapper;
 
-using AutoMapper;
-
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using Mineshard.Api.Models.DTO.User;
