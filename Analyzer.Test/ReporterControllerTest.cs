@@ -33,12 +33,22 @@ public class ReportsControllerTest
     }
 
     [Fact]
-    public async Task TestRunAnalyzer()
+    public async Task TestRunAsyncAnalyzer()
     {
         var sample = ReportFixtures.SampleReport;
         this.mockRepo.Setup(r => r.GetOne(sample.Id)).Returns(sample);
 
-        await this.controller.RunAnalysis(sample.Id);
+        await this.controller.RunAnalysisAync(sample.Id);
+        this.mockRepo.Verify(r => r.Update(It.IsAny<Report>(), It.IsAny<Report>()), Times.Once);
+    }
+
+    [Fact]
+    public void TestRunAnalyzer()
+    {
+        var sample = ReportFixtures.SampleReport;
+        this.mockRepo.Setup(r => r.GetOne(sample.Id)).Returns(sample);
+
+        this.controller.RunAnalysis(sample.Id);
         this.mockRepo.Verify(r => r.Update(It.IsAny<Report>(), It.IsAny<Report>()), Times.Once);
     }
 }
