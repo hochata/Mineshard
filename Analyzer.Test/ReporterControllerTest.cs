@@ -46,7 +46,7 @@ public class ReportsControllerTest
     public void TestRunAnalyzer()
     {
         var sample = ReportFixtures.SampleReport;
-        this.mockRepo.Setup(r => r.GetOne(sample.Id)).Returns(sample);
+        this.mockRepo.Setup(r => r.GetById(sample.Id)).Returns(sample);
 
         this.controller.RunAnalysis(sample.Id);
         this.mockRepo.Verify(r => r.Update(It.IsAny<Report>(), It.IsAny<Report>()), Times.Once);

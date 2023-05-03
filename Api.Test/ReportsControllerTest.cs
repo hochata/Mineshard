@@ -2,6 +2,7 @@ using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Mineshard.Api.Broker;
 using Mineshard.Api.Controllers;
 using Mineshard.Api.Mappings;
 
@@ -20,19 +21,22 @@ public class ReportsControllerTest
     private readonly ReportsController controller;
     private readonly Mock<IReportsRepo> mockRepo;
     private readonly Mock<IUserRepository> mockUsers;
+    private readonly Mock<IProducer> mockBroker;
     private readonly IMapper mapper;
 
     public ReportsControllerTest()
     {
         this.mockRepo = new Mock<IReportsRepo>();
         this.mockUsers = new Mock<IUserRepository>();
+        this.mockBroker = new Mock<IProducer>();
         var mapConf = new MapperConfiguration(c => c.AddProfile(new AutoMapperProfiles()));
 
         this.mapper = new Mapper(mapConf);
         this.controller = new ReportsController(
             this.mockRepo.Object,
             this.mockUsers.Object,
-            this.mapper
+            this.mapper,
+            this.mockBroker.Object
         );
     }
 
@@ -118,6 +122,7 @@ public class ReportsControllerTest
         );
         var report = Assert.IsType<BaseReport>(redirect.Value);
         this.mockRepo.Verify(x => x.Add(It.IsAny<Report>()), Times.Once());
+        this.mockBroker.Verify(x => x.Send(report.Id), Times.Once());
     }
 
     [Fact]
@@ -161,5 +166,6 @@ public class ReportsControllerTest
         var report = Assert.IsType<BaseReport>(redirect.Value);
         this.mockRepo.Verify(x => x.Add(It.IsAny<Report>()), Times.Once());
         this.mockRepo.Verify(x => x.AddRepository(It.IsAny<Repository>()), Times.Once());
+        this.mockBroker.Verify(x => x.Send(It.IsAny<Guid>()), Times.Once());
     }
 }
