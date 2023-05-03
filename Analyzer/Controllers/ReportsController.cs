@@ -4,7 +4,7 @@ using Mineshard.Persistence.Repos;
 
 namespace Mineshard.Analyzer.Controllers;
 
-public class ReportsController
+public class ReportsController : IReportsController
 {
     private readonly IReportsRepo repo;
     private readonly Reporter reporter;

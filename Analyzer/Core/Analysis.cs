@@ -79,12 +79,12 @@ public class Analysis : IDisposable
             if (this.Status == RepoStatus.Cloned && this.gitRepo != null)
             {
                 return from c in this.gitRepo.Commits
-                       group c by c.Author.Name into authorCommits
-                       select new Committer
-                       {
-                           Name = authorCommits.Key,
-                           CommitCount = authorCommits.Count()
-                       };
+                    group c by c.Author.Name into authorCommits
+                    select new Committer
+                    {
+                        Name = authorCommits.Key,
+                        CommitCount = authorCommits.Count()
+                    };
             }
             else
                 throw new InvalidDataException("Repository is not ready!");
@@ -98,13 +98,13 @@ public class Analysis : IDisposable
             if (this.Status == RepoStatus.Cloned && this.gitRepo != null)
             {
                 return from c in this.gitRepo.Commits
-                       where c.Author.When >= DateTime.Now.AddYears(-1)
-                       group c by c.Author.When.Month into commitsPerMonth
-                       select new Month
-                       {
-                           Code = commitsPerMonth.Key,
-                           NumCommits = commitsPerMonth.Count()
-                       };
+                    where c.Author.When >= DateTime.Now.AddYears(-1)
+                    group c by c.Author.When.Month into commitsPerMonth
+                    select new Month
+                    {
+                        Code = commitsPerMonth.Key,
+                        NumCommits = commitsPerMonth.Count()
+                    };
             }
             else
                 throw new InvalidDataException("Repository is not ready!");

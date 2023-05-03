@@ -5,7 +5,12 @@ using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Mineshard.Analyzer;
+
+using Mineshard.Analyzer.Broker;
+using Mineshard.Analyzer.Controllers;
+using Mineshard.Analyzer.Core;
+using Mineshard.Persistence.Repos;
+
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -30,12 +35,11 @@ for (int i = 1; i <= 10; i++)
 Console.WriteLine("Press any key to exit...");
 Console.ReadKey();
 
-void Setup(object? config)
+static void Setup(object? config)
 {
-    // Log thread creation
-    Console.WriteLine($"Thread {Environment.CurrentManagedThreadId} started.");
     if (config is null)
         return;
-    var worker = new Worker((IConfiguration) config);
+    var reporter = new ReportsController(new ReportsDbRepo(), new Reporter((IConfiguration)config));
+    var worker = new Worker((IConfiguration)config, reporter);
     worker.StartConsuming();
 }
