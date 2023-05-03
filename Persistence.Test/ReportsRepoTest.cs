@@ -41,7 +41,7 @@ public class ReportsRepoTest
     public void GetOneRealTest()
     {
         var id = ReportFixtures.SampleReport.Id;
-        var report = this.repo.GetOne(id);
+        var report = this.repo.GetById(id);
         Assert.NotNull(report);
         Assert.Equal(id, report.Id);
     }
@@ -49,7 +49,7 @@ public class ReportsRepoTest
     [Fact]
     public void GetOneNonExistentTest()
     {
-        var report = this.repo.GetOne(new Guid());
+        var report = this.repo.GetById(new Guid());
         Assert.Null(report);
     }
 }

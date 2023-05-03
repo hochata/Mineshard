@@ -4,7 +4,7 @@ using RabbitMQ.Client;
 
 namespace Mineshard.Api.Broker;
 
-public class Producer
+public class Producer : IProducer
 {
     private readonly ConnectionFactory _factory;
     private readonly string _queueName;

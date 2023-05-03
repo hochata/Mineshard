@@ -2,6 +2,7 @@ using AutoMapper;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Mineshard.Api.Broker;
 using Mineshard.Api.Models.Reports;
 using Mineshard.Persistence.Models;
 using Mineshard.Persistence.Repos;
@@ -15,20 +16,30 @@ public class ReportsController : ControllerBase
     private readonly IReportsRepo repo;
     private readonly IUserRepository userRepo;
     private readonly IMapper mapper;
+    private readonly IProducer broker;
 
-    public ReportsController(IReportsRepo repo, IUserRepository userRepo, IMapper mapper)
+    public ReportsController(
+        IReportsRepo repo,
+        IUserRepository userRepo,
+        IMapper mapper,
+        IProducer broker
+    )
     {
         this.repo = repo;
         this.mapper = mapper;
         this.userRepo = userRepo;
+        this.broker = broker;
     }
 
     [HttpGet]
     public IActionResult GetAll()
     {
-        var res = new List<ReportView>();
+        var res = new List<BaseReport>();
         foreach (var r in this.repo.GetAll())
-            res.Add(this.MapReport(r));
+        {
+            var mapped = this.MapReport(r);
+            res.Add(mapped);
+        }
         return Ok(res);
     }
 
@@ -100,6 +111,8 @@ public class ReportsController : ControllerBase
         }
         var report = new Report { Status = Report.ReportStatus.Pending, Repository = repo };
         this.repo.Add(report);
+
+        this.broker.Send(report.Id);
 
         return CreatedAtAction(
             nameof(GetOne),
