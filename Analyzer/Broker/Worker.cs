@@ -14,21 +14,12 @@ public class Worker : IDisposable
     private readonly IConnection _connection;
     private readonly IModel _channel;
     private readonly IReportsController _controller;
-    private readonly string _hostName;
     private readonly string _queueName;
 
-    public Worker(IConfiguration config, IReportsController controller)
+    public Worker(string queueName, IReportsController controller, IConnection connection)
     {
-        _hostName =
-            config.GetValue<string>("RabbitMQ:HostName")
-            ?? throw new ArgumentNullException(nameof(config), "Missing HostName configuration");
-
-        _queueName =
-            config.GetValue<string>("RabbitMQ:QueueName")
-            ?? throw new ArgumentNullException(nameof(config), "Missing QueueName configuration");
-
-        var factory = new ConnectionFactory() { HostName = _hostName };
-        _connection = factory.CreateConnection();
+        _queueName = queueName;
+        _connection = connection;
         _channel = _connection.CreateModel();
         _channel.QueueDeclare(
             queue: _queueName,
