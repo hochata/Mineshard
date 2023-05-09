@@ -31,6 +31,9 @@ public sealed class ReportsDbRepo : IReportsRepo, IDisposable
             : this.context.Reports
                 .Include(r => r.Repository)
                 .Include(r => r.Repository.Provider)
+                .Include(r => r.Branches)
+                .Include(r => r.Committers)
+                .Include(r => r.CommitsPerMonth)
                 .FirstOrDefault(x => x.Id == id);
 
     public List<Report> GetAll()
@@ -41,6 +44,9 @@ public sealed class ReportsDbRepo : IReportsRepo, IDisposable
         return this.context.Reports
             .Include(r => r.Repository)
             .Include(r => r.Repository.Provider)
+            .Include(r => r.Branches)
+            .Include(r => r.Committers)
+            .Include(r => r.CommitsPerMonth)
             .ToList();
     }
 
@@ -52,6 +58,7 @@ public sealed class ReportsDbRepo : IReportsRepo, IDisposable
     public void Update(Report source, Report dest)
     {
         dest.Status = source.Status;
+        dest.NumCommitsOnMain = source.NumCommitsOnMain;
         dest.Branches = source.Branches;
         dest.Committers = source.Committers;
         dest.CommitsPerMonth = source.CommitsPerMonth;

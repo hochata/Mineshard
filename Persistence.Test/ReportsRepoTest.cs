@@ -44,6 +44,13 @@ public class ReportsRepoTest
         var report = this.repo.GetById(id);
         Assert.NotNull(report);
         Assert.Equal(id, report.Id);
+        Assert.True(report.NumCommitsOnMain > 0);
+        Assert.NotNull(report.Branches);
+        Assert.NotEmpty(report.Branches);
+        Assert.NotNull(report.CommitsPerMonth);
+        Assert.NotEmpty(report.CommitsPerMonth);
+        Assert.NotNull(report.Committers);
+        Assert.NotEmpty(report.Committers);
     }
 
     [Fact]
